@@ -87,6 +87,21 @@ def limit_velocity_cost(
     return (residual * weight).flatten()
 
 
+@Cost.create_factory
+def limit_velocity_cost_ol(
+    vals: VarValues,
+    robot: Robot,
+    joint_var: Var[Array],
+    prev_joint_var: Array,
+    dt: float,
+    weight: Array | float,
+) -> Array:
+    """Computes the residual penalizing joint velocity limit violations."""
+    joint_vel = (vals[joint_var] - prev_joint_var) / dt
+    residual = jnp.maximum(0.0, jnp.abs(joint_vel) - robot.joints.velocity_limits)
+    return (residual * weight).flatten()
+
+
 # --- Regularization Costs ---
 
 
@@ -99,6 +114,18 @@ def rest_cost(
 ) -> Array:
     """Computes the residual biasing joints towards a rest pose."""
     return ((vals[joint_var] - rest_pose) * weight).flatten()
+
+
+@Cost.create_factory
+def velocity_cost(
+    vals: VarValues,
+    joint_var: Var[Array],
+    prev_joint: Array,
+    dt: float,
+    weight: Array | float,
+) -> Array:
+    """Computes the residual penalizing joint velocity limit violations."""
+    return ((vals[joint_var] - prev_joint) / dt * weight).flatten()
 
 
 @Cost.create_factory

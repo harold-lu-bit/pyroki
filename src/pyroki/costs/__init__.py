@@ -2,7 +2,9 @@ from ._costs import five_point_acceleration_cost as five_point_acceleration_cost
 from ._costs import five_point_jerk_cost as five_point_jerk_cost
 from ._costs import five_point_velocity_cost as five_point_velocity_cost
 from ._costs import limit_cost as limit_cost
+from ._costs import velocity_cost as velocity_cost
 from ._costs import limit_velocity_cost as limit_velocity_cost
+from ._costs import limit_velocity_cost_ol as limit_velocity_cost_ol
 from ._costs import manipulability_cost as manipulability_cost
 from ._costs import pose_cost as pose_cost
 from ._costs import pose_cost_with_base as pose_cost_with_base
